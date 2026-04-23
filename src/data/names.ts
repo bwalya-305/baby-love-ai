@@ -2,6 +2,8 @@ export type Gender = "boy" | "girl" | "neutral";
 
 export type Origin =
   | "Yoruba" | "Igbo" | "Zulu" | "Akan" | "Swahili" | "Amharic"
+  | "Bemba" | "Tonga" | "Nyanja" | "Lozi" | "Tumbuka" | "Lunda" | "Kaonde"
+  | "Shona" | "Xhosa" | "Hausa" | "Wolof" | "Kikuyu" | "Luganda"
   | "Hindi" | "Tamil" | "Sanskrit" | "Bengali" | "Urdu"
   | "Japanese" | "Chinese" | "Korean"
   | "Arabic" | "Persian" | "Hebrew" | "Turkish"
