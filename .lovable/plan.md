@@ -1,92 +1,42 @@
 
 
-# BabyName AI -- Full App Build Plan
+# Add More African Tribal Names (Zambia & Beyond)
 
-## Design System (from screenshots)
-- Background: warm cream/beige (`#fcfbf8` / `#f7f5f0`)
-- Accent: gold/amber (`#c8a45e`)
-- Text: dark charcoal for headings, muted gray for body
-- Headings: serif font (Playfair Display), italic for emphasis words
-- Body: clean sans-serif (Inter or system)
-- Dark section background for "Inclusive by Design" area
-- Pill/tag buttons with thin borders, italic serif text
+## What I'll Add
 
-## What Gets Built
+Expand `src/data/names.ts` with names from underrepresented African tribes, prioritizing **Zambia** and adding broader Sub-Saharan African coverage.
 
-### 1. Curated Real Name Database (~300 names)
-A hardcoded TypeScript data file with real, researched baby names spanning 25+ cultural origins. Each name includes: name, gender, origin, meaning, pronunciation, cultural context, themes/tags, syllable count, and starting letter. Sources: well-known naming traditions across African (Yoruba, Igbo, Zulu, Akan), South Asian (Hindi, Tamil, Sanskrit), East Asian (Japanese, Chinese, Korean), Middle Eastern (Arabic, Persian, Hebrew), European (Irish/Celtic, Italian, Greek, Norse, Slavic), Indigenous (Maori, Native American), and secular/literary/nature categories.
+### Zambian Tribes (~30 names)
+- **Bemba** (largest ethnic group, Northern/Copperbelt Zambia): e.g. Chanda, Mwansa, Bupe, Chisanga, Mutale, Kunda, Chola, Chileshe
+- **Tonga** (Southern Zambia): e.g. Choolwe, Mainza, Mutinta, Buumba, Munsaka
+- **Nyanja/Chewa** (Eastern Zambia, also Malawi): e.g. Thandiwe, Chimwemwe, Mphatso, Tamanda, Yamikani
+- **Lozi** (Western Zambia, Barotseland): e.g. Inonge, Mwangala, Lubinda, Mubita, Namakau
+- **Tumbuka, Lunda, Kaonde** (smaller groups): e.g. Mwape, Kabwe, Lwendo
 
-### 2. Onboarding Preference Flow (multi-step form)
-A 4-step questionnaire matching the SRD preference inputs:
-- **Step 1**: Gender preference (Boy / Girl / Neutral / Any) -- toggle buttons
-- **Step 2**: Cultural/ethnic origin -- multi-select searchable list of 25+ origins
-- **Step 3**: Themes & meaning -- tag selector (Nature, Strength, Light, Peace, Wisdom, Love, etc.)
-- **Step 4**: Name style -- syllable slider (1-4), starting letter input, must-include letters
+Each name will include real meaning, pronunciation, gender, themes, and cultural context.
 
-Preferences stored in React context + localStorage.
+### Additional African Tribes (~25 names)
+To round out the continent beyond what's already there (Yoruba, Igbo, Zulu, Akan):
+- **Swahili** (East Africa -- Kenya, Tanzania): Zuri, Imani, Jelani, Subira
+- **Amharic** (Ethiopia): Selam, Bekele, Hiwot, Dawit
+- **Shona** (Zimbabwe): Tendai, Rufaro, Tatenda, Farai
+- **Xhosa** (South Africa): Lwazi, Nomvula, Sipho, Thembeka
+- **Hausa** (Nigeria/Niger): Amina, Sani, Hadiza, Kabir
+- **Wolof** (Senegal): Aminata, Modou, Fatou, Awa
+- **Kikuyu** (Kenya): Wanjiru, Kamau, Njeri, Mwangi
+- **Luganda** (Uganda): Nakato, Wasswa, Babirye, Kato
 
-### 3. Name Discovery Page
-- Filtered results from the name database based on preferences
-- Card-based UI showing name, pronunciation, origin badge, short meaning
-- Thumbs up / thumbs down buttons on each card (feedback stored in state/localStorage)
-- "Generate More" button to shuffle/show next batch of 10
-- Smooth animations for card transitions
+### Onboarding Origin List Update
+Add the new origin labels (Bemba, Tonga, Nyanja, Lozi, Swahili, Amharic, Shona, Xhosa, Hausa, Wolof, Kikuyu, Luganda) to the multi-select in `src/pages/Onboarding.tsx` so users can filter by them.
 
-### 4. Name Detail Page
-- Full detail view: meaning, cultural/historical context, similar names from the database
-- Share as card (copy to clipboard or download as image -- mock)
-- Add to shortlist button
+### Filter Compatibility
+The existing `src/lib/filterNames.ts` already filters by `origin` string, so new entries plug in automatically. No engine changes needed.
 
-### 5. Shortlist / Favorites Page
-- List of saved names with full metadata
-- Add/edit personal notes on each name
-- Remove from shortlist
-- All persisted in localStorage
+## Files Touched
+- `src/data/names.ts` -- append ~55 new name entries
+- `src/pages/Onboarding.tsx` -- extend the origins list
 
-### 6. Partner Collaboration UI (mock/local)
-- Invite partner flow (enters partner name, generates mock invite link)
-- Shared shortlist view with both partners' reactions
-- Match indicator for names both partners liked
-- Emoji reactions on names
-
-### 7. App Navigation
-- Bottom tab bar (mobile-first): Discover, Shortlist, Partner, Profile
-- Header with "BabyName AI" logo matching the waiting list style
-
-## Pages & Routes
-- `/` -- Landing/home redirects to onboarding or discover
-- `/onboarding` -- Multi-step preference questionnaire
-- `/discover` -- Name browsing with cards
-- `/name/:id` -- Name detail view
-- `/shortlist` -- Saved favorites
-- `/partner` -- Partner collaboration
-- `/profile` -- Settings, reset preferences/feedback
-
-## Technical Details
-- **Data**: `src/data/names.ts` -- ~300 real names as typed array
-- **State**: React Context (`PreferencesContext`, `ShortlistContext`) + localStorage persistence
-- **Filtering**: Client-side filter engine matching preferences to name attributes
-- **Styling**: Tailwind CSS with custom CSS variables matching the cream/gold design system; Google Fonts for Playfair Display
-- **Routing**: React Router (already set up)
-- **No API calls**: Everything runs client-side with the built-in dataset
-
-## File Structure (new files)
-```text
-src/
-  data/names.ts              -- 300 real names with metadata
-  contexts/PreferencesContext.tsx
-  contexts/ShortlistContext.tsx
-  pages/Onboarding.tsx
-  pages/Discover.tsx
-  pages/NameDetail.tsx
-  pages/Shortlist.tsx
-  pages/Partner.tsx
-  pages/Profile.tsx
-  components/NameCard.tsx
-  components/BottomNav.tsx
-  components/PreferenceStep.tsx
-  components/ThemeTag.tsx
-  components/OriginSelector.tsx
-  lib/filterNames.ts         -- filtering logic
-```
+## Out of Scope
+- No API/backend changes (still fully client-side)
+- No design or routing changes
 
