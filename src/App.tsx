@@ -12,6 +12,7 @@ import NameDetail from "./pages/NameDetail.tsx";
 import Shortlist from "./pages/Shortlist.tsx";
 import Partner from "./pages/Partner.tsx";
 import Profile from "./pages/Profile.tsx";
+import PreDeployCheck from "./pages/PreDeployCheck.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
               <Route path="/shortlist" element={<Shortlist />} />
               <Route path="/partner" element={<Partner />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/pre-deploy" element={<PreDeployCheck />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
