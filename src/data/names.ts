@@ -2,6 +2,8 @@ export type Gender = "boy" | "girl" | "neutral";
 
 export type Origin =
   | "Yoruba" | "Igbo" | "Zulu" | "Akan" | "Swahili" | "Amharic"
+  | "Bemba" | "Tonga" | "Nyanja" | "Lozi" | "Tumbuka" | "Lunda" | "Kaonde"
+  | "Shona" | "Xhosa" | "Hausa" | "Wolof" | "Kikuyu" | "Luganda"
   | "Hindi" | "Tamil" | "Sanskrit" | "Bengali" | "Urdu"
   | "Japanese" | "Chinese" | "Korean"
   | "Arabic" | "Persian" | "Hebrew" | "Turkish"
@@ -30,6 +32,8 @@ export interface BabyName {
 
 export const ORIGINS: Origin[] = [
   "Yoruba","Igbo","Zulu","Akan","Swahili","Amharic",
+  "Bemba","Tonga","Nyanja","Lozi","Tumbuka","Lunda","Kaonde",
+  "Shona","Xhosa","Hausa","Wolof","Kikuyu","Luganda",
   "Hindi","Tamil","Sanskrit","Bengali","Urdu",
   "Japanese","Chinese","Korean",
   "Arabic","Persian","Hebrew","Turkish",
@@ -507,4 +511,96 @@ export const names: BabyName[] = [
   { id: "298", name: "Ravi", gender: "boy", origin: "Hindi", meaning: "Sun", pronunciation: "RAH-vee", culturalContext: "Named after the sun; also a classical raga in Indian music tradition.", themes: ["Light", "Fire", "Music"], syllables: 2, startingLetter: "R" },
   { id: "299", name: "Kiana", gender: "girl", origin: "Hawaiian", meaning: "Divine, heavenly", pronunciation: "kee-AH-nah", culturalContext: "A Hawaiian name meaning 'heavenly'; also used in Persian culture.", themes: ["Grace", "Beauty", "Sky"], syllables: 3, startingLetter: "K" },
   { id: "300", name: "Otis", gender: "boy", origin: "German", meaning: "Wealthy, prosperous", pronunciation: "OH-tis", culturalContext: "Made legendary by soul singer Otis Redding; carries musical soul.", themes: ["Music", "Joy"], syllables: 2, startingLetter: "O" },
+
+  // ===== BEMBA (Zambia) =====
+  { id: "301", name: "Chanda", gender: "neutral", origin: "Bemba", meaning: "One who resembles", pronunciation: "CHAHN-dah", culturalContext: "A common Bemba surname and given name in Northern Zambia, often denoting family resemblance.", themes: ["Love", "Grace"], syllables: 2, startingLetter: "C" },
+  { id: "302", name: "Mwansa", gender: "neutral", origin: "Bemba", meaning: "Born during a journey", pronunciation: "MWAHN-sah", culturalContext: "Traditional Bemba name given to children born while parents were traveling.", themes: ["Hope", "Earth"], syllables: 2, startingLetter: "M" },
+  { id: "303", name: "Bupe", gender: "girl", origin: "Bemba", meaning: "Gift", pronunciation: "BOO-peh", culturalContext: "Reflects the Bemba view of children as precious gifts from God.", themes: ["Faith", "Grace"], syllables: 2, startingLetter: "B" },
+  { id: "304", name: "Chisanga", gender: "neutral", origin: "Bemba", meaning: "Blessing, fortune", pronunciation: "chee-SAHN-gah", culturalContext: "A celebratory Bemba name marking the child as a blessing to the family.", themes: ["Faith", "Hope", "Joy"], syllables: 3, startingLetter: "C" },
+  { id: "305", name: "Mutale", gender: "neutral", origin: "Bemba", meaning: "One who refuses to give up", pronunciation: "moo-TAH-leh", culturalContext: "Popular Bemba name conveying resilience and determination.", themes: ["Strength", "Courage"], syllables: 3, startingLetter: "M" },
+  { id: "306", name: "Kunda", gender: "neutral", origin: "Bemba", meaning: "Love", pronunciation: "KOON-dah", culturalContext: "A Bemba clan name (also a sub-tribe) meaning love and affection.", themes: ["Love", "Peace"], syllables: 2, startingLetter: "K" },
+  { id: "307", name: "Chola", gender: "boy", origin: "Bemba", meaning: "The one who returned", pronunciation: "CHOH-lah", culturalContext: "Given to a child believed to embody a returning ancestor's spirit.", themes: ["Faith", "Wisdom"], syllables: 2, startingLetter: "C" },
+  { id: "308", name: "Chileshe", gender: "neutral", origin: "Bemba", meaning: "One who leaves behind", pronunciation: "chee-LEH-sheh", culturalContext: "Traditional Bemba name often given when a child is born after the death of a relative.", themes: ["Wisdom", "Hope"], syllables: 3, startingLetter: "C" },
+  { id: "309", name: "Mwape", gender: "boy", origin: "Bemba", meaning: "I have given", pronunciation: "MWAH-peh", culturalContext: "Expresses gratitude to God for the gift of the child.", themes: ["Faith", "Grace"], syllables: 2, startingLetter: "M" },
+  { id: "310", name: "Bwalya", gender: "neutral", origin: "Bemba", meaning: "Life-giver, abundance", pronunciation: "BWAH-lyah", culturalContext: "A widely used Bemba name carrying a sense of vitality and plenty.", themes: ["Hope", "Joy"], syllables: 2, startingLetter: "B" },
+  { id: "311", name: "Mulenga", gender: "neutral", origin: "Bemba", meaning: "Spirit of the ancestors", pronunciation: "moo-LEHN-gah", culturalContext: "A common Bemba name connecting the child to ancestral lineage.", themes: ["Wisdom", "Faith"], syllables: 3, startingLetter: "M" },
+  { id: "312", name: "Nsofwa", gender: "girl", origin: "Bemba", meaning: "Beloved one", pronunciation: "n-SOH-fwah", culturalContext: "A tender Bemba name often given to a long-awaited daughter.", themes: ["Love", "Beauty"], syllables: 2, startingLetter: "N" },
+
+  // ===== TONGA (Zambia) =====
+  { id: "313", name: "Choolwe", gender: "neutral", origin: "Tonga", meaning: "Luck, good fortune", pronunciation: "CHOH-lweh", culturalContext: "A Tonga name from Southern Zambia celebrating the child as a stroke of luck.", themes: ["Hope", "Joy"], syllables: 2, startingLetter: "C" },
+  { id: "314", name: "Mainza", gender: "boy", origin: "Tonga", meaning: "Born during the rainy season", pronunciation: "mah-EEN-zah", culturalContext: "Traditional Tonga name marking birth during the life-giving rains.", themes: ["Water", "Earth"], syllables: 3, startingLetter: "M" },
+  { id: "315", name: "Mutinta", gender: "girl", origin: "Tonga", meaning: "The different one, change", pronunciation: "moo-TEEN-tah", culturalContext: "Often given to a girl born after a string of boys, marking a welcome change.", themes: ["Grace", "Hope"], syllables: 3, startingLetter: "M" },
+  { id: "316", name: "Buumba", gender: "neutral", origin: "Tonga", meaning: "Sorrow turned to joy", pronunciation: "BOOM-bah", culturalContext: "A reflective Tonga name acknowledging hardship overcome.", themes: ["Hope", "Strength"], syllables: 2, startingLetter: "B" },
+  { id: "317", name: "Munsaka", gender: "boy", origin: "Tonga", meaning: "Hunter, provider", pronunciation: "moon-SAH-kah", culturalContext: "Honors the Tonga tradition of hunting and providing for the family.", themes: ["Strength", "Courage"], syllables: 3, startingLetter: "M" },
+  { id: "318", name: "Luyando", gender: "neutral", origin: "Tonga", meaning: "Love", pronunciation: "loo-YAHN-doh", culturalContext: "A widely used Tonga name expressing parental love.", themes: ["Love", "Grace"], syllables: 3, startingLetter: "L" },
+  { id: "319", name: "Mweetwa", gender: "boy", origin: "Tonga", meaning: "The called one", pronunciation: "MWEH-twah", culturalContext: "Suggests a child summoned with purpose into the family.", themes: ["Faith", "Hope"], syllables: 2, startingLetter: "M" },
+  { id: "320", name: "Namatama", gender: "girl", origin: "Tonga", meaning: "Mother of twins", pronunciation: "nah-mah-TAH-mah", culturalContext: "A Tonga honorific given to women who bear twins, reflecting blessings.", themes: ["Grace", "Faith"], syllables: 4, startingLetter: "N" },
+
+  // ===== NYANJA / CHEWA (Zambia & Malawi) =====
+  { id: "321", name: "Chimwemwe", gender: "neutral", origin: "Nyanja", meaning: "Joy, happiness", pronunciation: "chim-WEHM-weh", culturalContext: "A beloved Chewa/Nyanja name across Zambia and Malawi expressing pure joy.", themes: ["Joy", "Hope"], syllables: 3, startingLetter: "C" },
+  { id: "322", name: "Mphatso", gender: "neutral", origin: "Nyanja", meaning: "Gift", pronunciation: "m-PHAHT-soh", culturalContext: "Reflects the Chewa understanding of children as divine gifts.", themes: ["Faith", "Grace"], syllables: 2, startingLetter: "M" },
+  { id: "323", name: "Tamanda", gender: "girl", origin: "Nyanja", meaning: "Praise", pronunciation: "tah-MAHN-dah", culturalContext: "An act of praise to God for the new life.", themes: ["Faith", "Joy"], syllables: 3, startingLetter: "T" },
+  { id: "324", name: "Yamikani", gender: "neutral", origin: "Nyanja", meaning: "Be thankful", pronunciation: "yah-mee-KAH-nee", culturalContext: "An imperative Nyanja name calling the family to gratitude.", themes: ["Faith", "Grace"], syllables: 4, startingLetter: "Y" },
+  { id: "325", name: "Madalitso", gender: "neutral", origin: "Nyanja", meaning: "Blessings", pronunciation: "mah-dah-LEET-soh", culturalContext: "A common Chewa name acknowledging the child as one of many blessings.", themes: ["Faith", "Hope"], syllables: 4, startingLetter: "M" },
+  { id: "326", name: "Takondwa", gender: "neutral", origin: "Nyanja", meaning: "We are happy", pronunciation: "tah-KOHN-dwah", culturalContext: "Celebrates the family's collective joy at the child's arrival.", themes: ["Joy", "Love"], syllables: 3, startingLetter: "T" },
+  { id: "327", name: "Dalitso", gender: "boy", origin: "Nyanja", meaning: "Blessing", pronunciation: "dah-LEET-soh", culturalContext: "A short, popular Chewa name for a treasured child.", themes: ["Faith", "Hope"], syllables: 3, startingLetter: "D" },
+
+  // ===== LOZI (Western Zambia) =====
+  { id: "328", name: "Inonge", gender: "girl", origin: "Lozi", meaning: "Princess, royal one", pronunciation: "ee-NOHN-geh", culturalContext: "A Lozi royal name from Barotseland; borne by Zambian Vice-President Inonge Wina.", themes: ["Royalty", "Grace"], syllables: 3, startingLetter: "I" },
+  { id: "329", name: "Mwangala", gender: "girl", origin: "Lozi", meaning: "Joyful one", pronunciation: "mwahn-GAH-lah", culturalContext: "A Lozi name carried with pride in Western Zambia, often associated with royalty.", themes: ["Joy", "Royalty"], syllables: 3, startingLetter: "M" },
+  { id: "330", name: "Lubinda", gender: "boy", origin: "Lozi", meaning: "Guardian, protector", pronunciation: "loo-BEEN-dah", culturalContext: "A traditional Lozi name expressing strength and protection.", themes: ["Strength", "Courage"], syllables: 3, startingLetter: "L" },
+  { id: "331", name: "Mubita", gender: "boy", origin: "Lozi", meaning: "The one who passes through", pronunciation: "moo-BEE-tah", culturalContext: "A Lozi name often used among Litunga (royal) families.", themes: ["Royalty", "Wisdom"], syllables: 3, startingLetter: "M" },
+  { id: "332", name: "Namakau", gender: "girl", origin: "Lozi", meaning: "Mother of the homestead", pronunciation: "nah-mah-KAH-oo", culturalContext: "An esteemed Lozi female name signifying matriarchal leadership.", themes: ["Grace", "Strength"], syllables: 4, startingLetter: "N" },
+  { id: "333", name: "Imenda", gender: "boy", origin: "Lozi", meaning: "Walker, traveler", pronunciation: "ee-MEHN-dah", culturalContext: "Reflects the Lozi connection to the Zambezi floodplain and seasonal movement.", themes: ["Earth", "Strength"], syllables: 3, startingLetter: "I" },
+
+  // ===== TUMBUKA / LUNDA / KAONDE =====
+  { id: "334", name: "Kawanga", gender: "boy", origin: "Tumbuka", meaning: "Born at dawn", pronunciation: "kah-WAHN-gah", culturalContext: "Tumbuka name from Eastern Zambia and Northern Malawi marking time of birth.", themes: ["Light", "Hope"], syllables: 3, startingLetter: "K" },
+  { id: "335", name: "Mwila", gender: "neutral", origin: "Lunda", meaning: "Of the family lineage", pronunciation: "MWEE-lah", culturalContext: "A Lunda name (also Bemba) tying the child to ancestral identity.", themes: ["Wisdom", "Faith"], syllables: 2, startingLetter: "M" },
+  { id: "336", name: "Kabwe", gender: "boy", origin: "Lunda", meaning: "Rock, stone", pronunciation: "KAH-bweh", culturalContext: "A Lunda name conveying steadfastness; also a city in central Zambia.", themes: ["Strength", "Earth"], syllables: 2, startingLetter: "K" },
+  { id: "337", name: "Lwendo", gender: "neutral", origin: "Kaonde", meaning: "Journey", pronunciation: "LWEHN-doh", culturalContext: "A Kaonde name from North-Western Zambia symbolizing life's path.", themes: ["Hope", "Wisdom"], syllables: 2, startingLetter: "L" },
+  { id: "338", name: "Mukuka", gender: "boy", origin: "Bemba", meaning: "Of the dawn, ancestor's spirit", pronunciation: "moo-KOO-kah", culturalContext: "A Bemba name often connected to one born at dawn or to an ancestor returning.", themes: ["Light", "Wisdom"], syllables: 3, startingLetter: "M" },
+
+  // ===== SHONA (Zimbabwe) =====
+  { id: "339", name: "Tendai", gender: "neutral", origin: "Shona", meaning: "Be thankful", pronunciation: "TEHN-dye", culturalContext: "A widely used Shona name expressing gratitude to God.", themes: ["Faith", "Grace"], syllables: 2, startingLetter: "T" },
+  { id: "340", name: "Rufaro", gender: "neutral", origin: "Shona", meaning: "Happiness", pronunciation: "roo-FAH-roh", culturalContext: "A celebratory Shona name carried by both girls and boys in Zimbabwe.", themes: ["Joy", "Hope"], syllables: 3, startingLetter: "R" },
+  { id: "341", name: "Tatenda", gender: "neutral", origin: "Shona", meaning: "Thank you", pronunciation: "tah-TEHN-dah", culturalContext: "A direct expression of thanksgiving for the child's birth.", themes: ["Faith", "Joy"], syllables: 3, startingLetter: "T" },
+  { id: "342", name: "Farai", gender: "neutral", origin: "Shona", meaning: "Rejoice", pronunciation: "FAH-rye", culturalContext: "A Shona imperative inviting the family and community to rejoice.", themes: ["Joy", "Hope"], syllables: 2, startingLetter: "F" },
+  { id: "343", name: "Chipo", gender: "girl", origin: "Shona", meaning: "Gift", pronunciation: "CHEE-poh", culturalContext: "A short, popular Shona name underscoring the child as a gift.", themes: ["Faith", "Grace"], syllables: 2, startingLetter: "C" },
+
+  // ===== XHOSA (South Africa) =====
+  { id: "344", name: "Lwazi", gender: "boy", origin: "Xhosa", meaning: "Knowledge", pronunciation: "LWAH-zee", culturalContext: "A Xhosa name expressing the parents' wish for the child's wisdom.", themes: ["Wisdom", "Light"], syllables: 2, startingLetter: "L" },
+  { id: "345", name: "Nomvula", gender: "girl", origin: "Xhosa", meaning: "Mother of rain", pronunciation: "nohm-VOO-lah", culturalContext: "A Xhosa/Zulu name given to a girl born during the rains, symbolizing blessing.", themes: ["Water", "Grace"], syllables: 3, startingLetter: "N" },
+  { id: "346", name: "Sipho", gender: "boy", origin: "Xhosa", meaning: "Gift", pronunciation: "SEE-poh", culturalContext: "A widely used Xhosa/Zulu name celebrating the child as a divine gift.", themes: ["Faith", "Grace"], syllables: 2, startingLetter: "S" },
+  { id: "347", name: "Thembeka", gender: "girl", origin: "Xhosa", meaning: "Trustworthy, faithful", pronunciation: "tehm-BEH-kah", culturalContext: "A Xhosa virtue name conveying dependability and integrity.", themes: ["Faith", "Wisdom"], syllables: 3, startingLetter: "T" },
+
+  // ===== HAUSA (Nigeria/Niger) =====
+  { id: "348", name: "Amina", gender: "girl", origin: "Hausa", meaning: "Trustworthy, faithful", pronunciation: "ah-MEE-nah", culturalContext: "Borne by Queen Amina of Zazzau, a legendary 16th-century Hausa warrior queen.", themes: ["Strength", "Faith", "Royalty"], syllables: 3, startingLetter: "A" },
+  { id: "349", name: "Sani", gender: "boy", origin: "Hausa", meaning: "Second-born son", pronunciation: "SAH-nee", culturalContext: "Traditional Hausa birth-order name common across Northern Nigeria.", themes: ["Strength"], syllables: 2, startingLetter: "S" },
+  { id: "350", name: "Hadiza", gender: "girl", origin: "Hausa", meaning: "Beloved, faithful", pronunciation: "hah-DEE-zah", culturalContext: "A Hausa form of Khadija, honoring the first wife of the Prophet Muhammad.", themes: ["Love", "Faith"], syllables: 3, startingLetter: "H" },
+  { id: "351", name: "Kabir", gender: "boy", origin: "Hausa", meaning: "Great, mighty", pronunciation: "kah-BEER", culturalContext: "A Hausa-Arabic name signifying greatness, often given to firstborn sons.", themes: ["Strength", "Royalty"], syllables: 2, startingLetter: "K" },
+
+  // ===== WOLOF (Senegal) =====
+  { id: "352", name: "Aminata", gender: "girl", origin: "Wolof", meaning: "Faithful, trustworthy", pronunciation: "ah-mee-NAH-tah", culturalContext: "A widely beloved Wolof name across Senegal and West Africa.", themes: ["Faith", "Grace"], syllables: 4, startingLetter: "A" },
+  { id: "353", name: "Modou", gender: "boy", origin: "Wolof", meaning: "Praised one", pronunciation: "moh-DOO", culturalContext: "A Wolof form of Muhammad, common in Senegal.", themes: ["Faith", "Royalty"], syllables: 2, startingLetter: "M" },
+  { id: "354", name: "Fatou", gender: "girl", origin: "Wolof", meaning: "Captivating", pronunciation: "FAH-too", culturalContext: "A Wolof form of Fatima, one of the most popular names in Senegal.", themes: ["Beauty", "Grace"], syllables: 2, startingLetter: "F" },
+  { id: "355", name: "Awa", gender: "girl", origin: "Wolof", meaning: "Living one, life", pronunciation: "AH-wah", culturalContext: "A Wolof form of Eve, signifying the mother of life.", themes: ["Hope", "Grace"], syllables: 2, startingLetter: "A" },
+
+  // ===== KIKUYU (Kenya) =====
+  { id: "356", name: "Wanjiru", gender: "girl", origin: "Kikuyu", meaning: "Of one of the nine daughters of Mumbi", pronunciation: "wahn-JEE-roo", culturalContext: "From the Kikuyu founding myth, where Mumbi's nine daughters founded the clans.", themes: ["Wisdom", "Royalty"], syllables: 3, startingLetter: "W" },
+  { id: "357", name: "Kamau", gender: "boy", origin: "Kikuyu", meaning: "Quiet warrior", pronunciation: "kah-MAH-oo", culturalContext: "A widely respected Kikuyu name evoking calm strength.", themes: ["Strength", "Peace"], syllables: 3, startingLetter: "K" },
+  { id: "358", name: "Njeri", gender: "girl", origin: "Kikuyu", meaning: "Daughter of the warrior", pronunciation: "n-JEH-ree", culturalContext: "Another of the nine clans of the Kikuyu people of Kenya.", themes: ["Strength", "Courage"], syllables: 2, startingLetter: "N" },
+  { id: "359", name: "Mwangi", gender: "boy", origin: "Kikuyu", meaning: "Rapid expansion, prolific", pronunciation: "MWAHN-gee", culturalContext: "A common Kikuyu name carried by many Kenyan leaders and writers.", themes: ["Hope", "Strength"], syllables: 2, startingLetter: "M" },
+
+  // ===== LUGANDA (Uganda) =====
+  { id: "360", name: "Nakato", gender: "girl", origin: "Luganda", meaning: "Younger of twins", pronunciation: "nah-KAH-toh", culturalContext: "Baganda twin-naming tradition: Nakato is the second-born female twin.", themes: ["Grace", "Joy"], syllables: 3, startingLetter: "N" },
+  { id: "361", name: "Wasswa", gender: "boy", origin: "Luganda", meaning: "First-born of twins", pronunciation: "WAHS-swah", culturalContext: "Baganda twin name automatically given to the first-born male twin.", themes: ["Strength", "Joy"], syllables: 2, startingLetter: "W" },
+  { id: "362", name: "Babirye", gender: "girl", origin: "Luganda", meaning: "First-born of twins", pronunciation: "bah-BEER-yeh", culturalContext: "Baganda name for the elder female twin, paired traditionally with Nakato.", themes: ["Strength", "Grace"], syllables: 3, startingLetter: "B" },
+  { id: "363", name: "Kato", gender: "boy", origin: "Luganda", meaning: "Younger of twins", pronunciation: "KAH-toh", culturalContext: "Baganda name automatically given to the second-born male twin.", themes: ["Joy", "Hope"], syllables: 2, startingLetter: "K" },
+
+  // ===== AMHARIC (Ethiopia) =====
+  { id: "364", name: "Selam", gender: "neutral", origin: "Amharic", meaning: "Peace", pronunciation: "SEH-lahm", culturalContext: "An Amharic greeting and name, embodying the wish for peace.", themes: ["Peace", "Hope"], syllables: 2, startingLetter: "S" },
+  { id: "365", name: "Bekele", gender: "boy", origin: "Amharic", meaning: "He has grown / sprouted", pronunciation: "beh-KEH-leh", culturalContext: "A common Ethiopian name; borne by Olympic legend Kenenisa Bekele.", themes: ["Hope", "Strength"], syllables: 3, startingLetter: "B" },
+  { id: "366", name: "Hiwot", gender: "girl", origin: "Amharic", meaning: "Life", pronunciation: "HEE-wot", culturalContext: "An Amharic name celebrating the gift of life itself.", themes: ["Hope", "Grace"], syllables: 2, startingLetter: "H" },
+  { id: "367", name: "Dawit", gender: "boy", origin: "Amharic", meaning: "Beloved", pronunciation: "DAH-weet", culturalContext: "Ethiopian form of David, honoring the biblical king and the Solomonic dynasty.", themes: ["Love", "Royalty"], syllables: 2, startingLetter: "D" },
+
 ];
