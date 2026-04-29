@@ -112,9 +112,20 @@ export default function Partner() {
                   <p className="text-xs text-muted-foreground">Partner</p>
                 </div>
               </div>
-              <Button variant="outline" size="sm" onClick={handleCopyLink} className="gap-1">
-                <Copy className="h-3 w-3" /> Copy Link
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={handleCopyLink} className="gap-1">
+                  <Copy className="h-3 w-3" /> Copy Link
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleRemovePartner}
+                  className="gap-1 text-muted-foreground hover:text-destructive"
+                  aria-label="Remove partner"
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              </div>
             </div>
 
             {matches.length > 0 && (
@@ -137,9 +148,14 @@ export default function Partner() {
 
             <h3 className="mt-6 font-serif text-lg font-semibold">Shortlisted Names</h3>
             {shortlistedNames.length === 0 ? (
-              <p className="mt-3 text-sm text-muted-foreground">
-                Add names to your shortlist first, then come back here to react together.
-              </p>
+              <div className="mt-3 rounded-xl border border-dashed border-border p-4 text-center">
+                <p className="text-sm text-muted-foreground">
+                  Add names to your shortlist first, then come back here to react together.
+                </p>
+                <Button variant="outline" size="sm" className="mt-3" onClick={() => navigate("/discover")}>
+                  Go to Discover
+                </Button>
+              </div>
             ) : (
               <div className="mt-3 space-y-3">
                 {shortlistedNames.map(({ nameId, nameData }) => {
