@@ -113,16 +113,36 @@ export default function Profile() {
           <Button
             variant="outline"
             className="w-full gap-2 text-destructive hover:bg-destructive/10"
-            onClick={() => {
-              resetPreferences();
-              resetAll();
-              navigate("/onboarding");
-            }}
+            onClick={() => setConfirmReset(true)}
           >
             <RotateCcw className="h-4 w-4" /> Reset Everything
           </Button>
         </div>
       </div>
+
+      <AlertDialog open={confirmReset} onOpenChange={setConfirmReset}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Reset everything?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This clears your preferences, shortlist, partner, and reactions. This cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                resetPreferences();
+                resetAll();
+                setConfirmReset(false);
+                navigate("/");
+              }}
+            >
+              Reset
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <BottomNav />
     </div>
