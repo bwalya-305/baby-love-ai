@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useShortlist } from "@/contexts/ShortlistContext";
 import { names } from "@/data/names";
 import BottomNav from "@/components/BottomNav";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Users, Heart, Copy, Link2, Sparkles } from "lucide-react";
+import { Users, Heart, Copy, Link2, Sparkles, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 const REACTIONS = [
@@ -18,8 +19,15 @@ const REACTIONS = [
 export default function Partner() {
   const { shortlist, partnerName, setPartnerName, partnerReactions, setPartnerReaction } = useShortlist();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [nameInput, setNameInput] = useState(partnerName);
-  const [invited, setInvited] = useState(!!partnerName);
+
+  // Keep input synced when partnerName changes (e.g. via Reset)
+  useEffect(() => {
+    setNameInput(partnerName);
+  }, [partnerName]);
+
+  const invited = !!partnerName;
 
   const shortlistedNames = shortlist
     .map((s) => ({ ...s, nameData: names.find((n) => n.id === s.nameId) }))
