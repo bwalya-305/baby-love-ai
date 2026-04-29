@@ -34,13 +34,19 @@ export default function Partner() {
     .filter((s) => s.nameData);
 
   const handleInvite = () => {
-    if (!nameInput.trim()) return;
-    setPartnerName(nameInput.trim());
-    setInvited(true);
+    const trimmed = nameInput.trim();
+    if (!trimmed) return;
+    setPartnerName(trimmed);
     toast({
       title: "Partner invited!",
-      description: `${nameInput.trim()} can now react to your shortlist. (Demo mode — share your screen!)`,
+      description: `${trimmed} can now react to your shortlist. (Demo mode — share your screen!)`,
     });
+  };
+
+  const handleRemovePartner = () => {
+    setPartnerName("");
+    setNameInput("");
+    toast({ title: "Partner removed" });
   };
 
   const handleCopyLink = () => {
@@ -82,9 +88,14 @@ export default function Partner() {
                 placeholder="Partner's name"
                 value={nameInput}
                 onChange={(e) => setNameInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleInvite()}
                 className="text-center"
               />
-              <Button onClick={handleInvite} className="mt-3 w-full gap-2">
+              <Button
+                onClick={handleInvite}
+                className="mt-3 w-full gap-2"
+                disabled={!nameInput.trim()}
+              >
                 <Link2 className="h-4 w-4" /> Send Invite
               </Button>
             </div>
