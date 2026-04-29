@@ -1,8 +1,9 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Compass, Heart, Users, User } from "lucide-react";
+import { Home, Compass, Heart, Users, User } from "lucide-react";
 
 const tabs = [
+  { path: "/", label: "Home", icon: Home },
   { path: "/discover", label: "Discover", icon: Compass },
   { path: "/shortlist", label: "Shortlist", icon: Heart },
   { path: "/partner", label: "Partner", icon: Users },
