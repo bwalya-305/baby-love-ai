@@ -4,8 +4,9 @@ import { names } from "@/data/names";
 import { useShortlist } from "@/contexts/ShortlistContext";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Heart, Share2, Copy } from "lucide-react";
+import { ArrowLeft, Heart, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 import BottomNav from "@/components/BottomNav";
 
 export default function NameDetail() {
