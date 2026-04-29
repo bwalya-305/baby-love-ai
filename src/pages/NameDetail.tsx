@@ -4,8 +4,9 @@ import { names } from "@/data/names";
 import { useShortlist } from "@/contexts/ShortlistContext";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Heart, Share2, Copy } from "lucide-react";
+import { ArrowLeft, Heart, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 import BottomNav from "@/components/BottomNav";
 
 export default function NameDetail() {
@@ -34,11 +35,29 @@ export default function NameDetail() {
     toast({ title: "Copied to clipboard!", description: "Share this name with your partner." });
   };
 
+  const handleAdd = () => {
+    addToShortlist(name.id);
+    toast({
+      title: `${name.name} added to shortlist`,
+      description: "View it any time from your shortlist.",
+      action: (
+        <ToastAction altText="View shortlist" onClick={() => navigate("/shortlist")}>
+          View
+        </ToastAction>
+      ),
+    });
+  };
+
+  const handleBack = () => {
+    if (window.history.length > 1) navigate(-1);
+    else navigate("/discover");
+  };
+
   return (
     <div className="min-h-screen bg-background pb-24">
       {/* Header */}
       <div className="px-6 pt-6">
-        <button onClick={() => navigate(-1)} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+        <button onClick={handleBack} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
           <ArrowLeft className="h-4 w-4" /> Back
         </button>
       </div>
@@ -55,8 +74,9 @@ export default function NameDetail() {
                 <Share2 className="h-5 w-5 text-muted-foreground" />
               </button>
               <button
-                onClick={() => (shortlisted ? removeFromShortlist(name.id) : addToShortlist(name.id))}
+                onClick={() => (shortlisted ? removeFromShortlist(name.id) : handleAdd())}
                 className="rounded-full border border-border p-2.5 hover:bg-secondary"
+                aria-label={shortlisted ? "Remove from shortlist" : "Add to shortlist"}
               >
                 <Heart className={`h-5 w-5 ${shortlisted ? "fill-primary text-primary" : "text-muted-foreground"}`} />
               </button>
@@ -90,9 +110,13 @@ export default function NameDetail() {
             </div>
           </div>
 
-          {!shortlisted && (
-            <Button onClick={() => addToShortlist(name.id)} className="mt-6 w-full gap-2">
+          {!shortlisted ? (
+            <Button onClick={handleAdd} className="mt-6 w-full gap-2">
               <Heart className="h-4 w-4" /> Add to Shortlist
+            </Button>
+          ) : (
+            <Button variant="outline" onClick={() => navigate("/shortlist")} className="mt-6 w-full gap-2">
+              <Heart className="h-4 w-4 fill-primary text-primary" /> View in Shortlist
             </Button>
           )}
 

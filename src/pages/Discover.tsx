@@ -5,13 +5,13 @@ import { filterNames, shuffleArray } from "@/lib/filterNames";
 import NameCard from "@/components/NameCard";
 import BottomNav from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
-import { RefreshCw, SlidersHorizontal } from "lucide-react";
+import { Home, RefreshCw, RotateCcw, SlidersHorizontal } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const BATCH = 10;
 
 export default function Discover() {
-  const { preferences } = usePreferences();
+  const { preferences, resetPreferences } = usePreferences();
   const navigate = useNavigate();
   const [seed, setSeed] = useState(0);
 
@@ -37,10 +37,17 @@ export default function Discover() {
       {/* Header */}
       <div className="sticky top-0 z-40 border-b border-border bg-background/95 px-6 py-4 backdrop-blur">
         <div className="mx-auto flex max-w-md items-center justify-between">
-          <h1 className="font-serif text-xl font-bold text-foreground">
-            Baby<span className="text-primary">Name</span> <span className="italic">AI</span>
-          </h1>
-          <Button variant="ghost" size="icon" onClick={() => navigate("/onboarding")}>
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2"
+            aria-label="Back to home"
+          >
+            <Home className="h-4 w-4 text-muted-foreground" />
+            <h1 className="font-serif text-xl font-bold text-foreground">
+              Baby<span className="text-primary">Name</span> <span className="italic">AI</span>
+            </h1>
+          </button>
+          <Button variant="ghost" size="icon" onClick={() => navigate("/onboarding")} aria-label="Edit preferences">
             <SlidersHorizontal className="h-5 w-5" />
           </Button>
         </div>
@@ -60,10 +67,19 @@ export default function Discover() {
         {filtered.length === 0 && (
           <div className="mt-12 text-center">
             <p className="font-serif text-lg text-foreground">No names found</p>
-            <p className="mt-2 text-sm text-muted-foreground">Try adjusting your preferences.</p>
-            <Button variant="outline" className="mt-4" onClick={() => navigate("/onboarding")}>
-              Edit Preferences
-            </Button>
+            <p className="mt-2 text-sm text-muted-foreground">Try adjusting or resetting your preferences.</p>
+            <div className="mt-4 flex flex-col gap-2">
+              <Button variant="outline" onClick={() => navigate("/onboarding")}>
+                Edit Preferences
+              </Button>
+              <Button
+                variant="ghost"
+                className="gap-2"
+                onClick={() => resetPreferences()}
+              >
+                <RotateCcw className="h-4 w-4" /> Reset filters
+              </Button>
+            </div>
           </div>
         )}
 

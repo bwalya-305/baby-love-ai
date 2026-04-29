@@ -1,27 +1,61 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePreferences } from "@/contexts/PreferencesContext";
-import { Gender, ORIGINS, THEMES, Origin, Theme } from "@/data/names";
+import { Gender, ORIGINS, THEMES, Origin, names } from "@/data/names";
 import ThemeTag from "@/components/ThemeTag";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
-import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Sparkles, X, Check } from "lucide-react";
+import { filterNames } from "@/lib/filterNames";
 
 const STEPS = 4;
 
+// Group origins by region for easier scanning
+const ORIGIN_REGIONS: { region: string; origins: Origin[] }[] = [
+  {
+    region: "Africa",
+    origins: [
+      "Yoruba","Igbo","Zulu","Akan","Swahili","Amharic",
+      "Bemba","Tonga","Nyanja","Lozi","Tumbuka","Lunda","Kaonde",
+      "Shona","Xhosa","Hausa","Wolof","Kikuyu","Luganda",
+    ],
+  },
+  {
+    region: "Asia",
+    origins: ["Hindi","Tamil","Sanskrit","Bengali","Urdu","Japanese","Chinese","Korean"],
+  },
+  {
+    region: "Middle East",
+    origins: ["Arabic","Persian","Hebrew","Turkish"],
+  },
+  {
+    region: "Europe",
+    origins: ["Irish","Italian","Greek","Norse","Slavic","French","Spanish","German","Welsh","Scottish","English","Latin"],
+  },
+  {
+    region: "Pacific & Americas",
+    origins: ["Maori","Hawaiian","Native American"],
+  },
+];
+
 export default function Onboarding() {
-  const { preferences, updatePreference, setHasCompletedOnboarding } = usePreferences();
+  const { preferences, updatePreference, hasCompletedOnboarding, setHasCompletedOnboarding } = usePreferences();
   const [step, setStep] = useState(0);
   const navigate = useNavigate();
   const [originSearch, setOriginSearch] = useState("");
 
+  const isEditMode = hasCompletedOnboarding;
+  const matchCount = useMemo(() => filterNames(names, preferences).length, [preferences]);
+
+  const finish = () => {
+    setHasCompletedOnboarding(true);
+    navigate("/discover");
+  };
+
   const next = () => {
     if (step < STEPS - 1) setStep(step + 1);
-    else {
-      setHasCompletedOnboarding(true);
-      navigate("/discover");
-    }
+    else finish();
   };
   const back = () => step > 0 && setStep(step - 1);
 
@@ -32,28 +66,45 @@ export default function Onboarding() {
     { value: "any", label: "Show All", emoji: "🌈" },
   ];
 
-  const filteredOrigins = ORIGINS.filter((o) => o.toLowerCase().includes(originSearch.toLowerCase()));
+  const allOrigins = ORIGINS;
+  const allSelected = preferences.origins.length === allOrigins.length;
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
       {/* Header */}
       <div className="px-6 pt-12 pb-4">
-        <h1 className="font-serif text-3xl font-bold text-foreground">
-          Baby<span className="text-primary">Name</span> <span className="italic">AI</span>
-        </h1>
+        <div className="flex items-start justify-between">
+          <h1 className="font-serif text-3xl font-bold text-foreground">
+            Baby<span className="text-primary">Name</span> <span className="italic">AI</span>
+          </h1>
+          {isEditMode && (
+            <button
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-1 rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground"
+              aria-label="Close edit"
+            >
+              <X className="h-3 w-3" /> Close
+            </button>
+          )}
+        </div>
         <div className="mt-4 flex gap-1.5">
           {Array.from({ length: STEPS }).map((_, i) => (
-            <div
+            <button
               key={i}
-              className={`h-1.5 flex-1 rounded-full transition-colors ${i <= step ? "bg-primary" : "bg-muted"}`}
+              onClick={() => setStep(i)}
+              className={`h-1.5 flex-1 rounded-full transition-colors ${i <= step ? "bg-primary" : "bg-muted hover:bg-muted-foreground/30"}`}
+              aria-label={`Go to step ${i + 1}`}
             />
           ))}
         </div>
-        <p className="mt-3 text-sm text-muted-foreground">Step {step + 1} of {STEPS}</p>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Step {step + 1} of {STEPS}
+          {isEditMode && <span className="ml-2 text-primary">· Editing preferences</span>}
+        </p>
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-6 pb-32">
+      <div className="flex-1 overflow-y-auto px-6 pb-40">
         {step === 0 && (
           <div className="animate-fade-in">
             <h2 className="font-serif text-2xl font-semibold">What are you looking for?</h2>
@@ -83,44 +134,66 @@ export default function Onboarding() {
             <p className="mt-2 text-sm text-muted-foreground">
               Select one or more cultural traditions. Leave empty to see all.
             </p>
-            <Input
-              placeholder="Search origins..."
-              value={originSearch}
-              onChange={(e) => setOriginSearch(e.target.value)}
-              className="mt-4"
-            />
-            <div className="mt-4 flex flex-wrap gap-2">
-              {filteredOrigins.map((origin) => {
-                const selected = preferences.origins.includes(origin);
+            <div className="mt-3 flex items-center gap-2">
+              <Input
+                placeholder="Search origins..."
+                value={originSearch}
+                onChange={(e) => setOriginSearch(e.target.value)}
+                className="flex-1"
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  updatePreference("origins", allSelected ? [] : [...allOrigins])
+                }
+              >
+                {allSelected ? "Clear" : "All"}
+              </Button>
+            </div>
+
+            <div className="mt-4 space-y-4">
+              {ORIGIN_REGIONS.map(({ region, origins }) => {
+                const visible = origins.filter((o) =>
+                  o.toLowerCase().includes(originSearch.toLowerCase())
+                );
+                if (visible.length === 0) return null;
                 return (
-                  <button
-                    key={origin}
-                    onClick={() => {
-                      if (selected) {
-                        updatePreference("origins", preferences.origins.filter((o) => o !== origin));
-                      } else {
-                        updatePreference("origins", [...preferences.origins, origin]);
-                      }
-                    }}
-                    className={`rounded-full border px-3 py-1.5 text-sm transition-all ${
-                      selected
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-border text-foreground hover:border-primary/50"
-                    }`}
-                  >
-                    {origin}
-                  </button>
+                  <div key={region}>
+                    <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                      {region}
+                    </h3>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {visible.map((origin) => {
+                        const selected = preferences.origins.includes(origin);
+                        return (
+                          <button
+                            key={origin}
+                            onClick={() => {
+                              if (selected) {
+                                updatePreference(
+                                  "origins",
+                                  preferences.origins.filter((o) => o !== origin)
+                                );
+                              } else {
+                                updatePreference("origins", [...preferences.origins, origin]);
+                              }
+                            }}
+                            className={`rounded-full border px-3 py-1.5 text-sm transition-all ${
+                              selected
+                                ? "border-primary bg-primary text-primary-foreground"
+                                : "border-border text-foreground hover:border-primary/50"
+                            }`}
+                          >
+                            {origin}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 );
               })}
             </div>
-            {preferences.origins.length > 0 && (
-              <button
-                onClick={() => updatePreference("origins", [])}
-                className="mt-3 text-xs text-primary hover:underline"
-              >
-                Clear all
-              </button>
-            )}
           </div>
         )}
 
@@ -128,7 +201,7 @@ export default function Onboarding() {
           <div className="animate-fade-in">
             <h2 className="font-serif text-2xl font-semibold">Themes & meaning</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              What themes resonate with you? Select as many as you'd like.
+              What themes resonate with you? Select as many as you'd like, or none for all.
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
               {THEMES.map((theme) => (
@@ -146,6 +219,14 @@ export default function Onboarding() {
                 />
               ))}
             </div>
+            {preferences.themes.length > 0 && (
+              <button
+                onClick={() => updatePreference("themes", [])}
+                className="mt-3 text-xs text-primary hover:underline"
+              >
+                Clear all themes
+              </button>
+            )}
           </div>
         )}
 
@@ -206,29 +287,45 @@ export default function Onboarding() {
               />
               <p className="mt-1 text-xs text-muted-foreground">Names must contain all these letters.</p>
             </div>
+
+            {matchCount === 0 && (
+              <p className="mt-4 rounded-md border border-destructive/30 bg-destructive/5 p-3 text-xs text-destructive">
+                No names match these constraints. Try removing a starting or must-include letter.
+              </p>
+            )}
           </div>
         )}
       </div>
 
       {/* Footer */}
       <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-background/95 px-6 py-4 backdrop-blur">
-        <div className="mx-auto flex max-w-md gap-3">
-          {step > 0 && (
-            <Button variant="outline" onClick={back} className="gap-1">
-              <ArrowLeft className="h-4 w-4" /> Back
-            </Button>
-          )}
-          <Button onClick={next} className="flex-1 gap-1">
-            {step === STEPS - 1 ? (
-              <>
-                <Sparkles className="h-4 w-4" /> Discover Names
-              </>
-            ) : (
-              <>
-                Continue <ArrowRight className="h-4 w-4" />
-              </>
+        <div className="mx-auto max-w-md">
+          <p className={`mb-2 text-center text-xs ${matchCount === 0 ? "text-destructive" : "text-muted-foreground"}`}>
+            {matchCount} {matchCount === 1 ? "name" : "names"} match your preferences
+          </p>
+          <div className="flex gap-3">
+            {step > 0 && (
+              <Button variant="outline" onClick={back} className="gap-1">
+                <ArrowLeft className="h-4 w-4" /> Back
+              </Button>
             )}
-          </Button>
+            {isEditMode && (
+              <Button variant="outline" onClick={finish} className="gap-1">
+                <Check className="h-4 w-4" /> Save
+              </Button>
+            )}
+            <Button onClick={next} className="flex-1 gap-1" disabled={matchCount === 0 && step === STEPS - 1}>
+              {step === STEPS - 1 ? (
+                <>
+                  <Sparkles className="h-4 w-4" /> Discover Names
+                </>
+              ) : (
+                <>
+                  Continue <ArrowRight className="h-4 w-4" />
+                </>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

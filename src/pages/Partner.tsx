@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useShortlist } from "@/contexts/ShortlistContext";
 import { names } from "@/data/names";
 import BottomNav from "@/components/BottomNav";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Users, Heart, Copy, Link2, Sparkles } from "lucide-react";
+import { Users, Heart, Copy, Link2, Sparkles, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 const REACTIONS = [
@@ -18,21 +19,34 @@ const REACTIONS = [
 export default function Partner() {
   const { shortlist, partnerName, setPartnerName, partnerReactions, setPartnerReaction } = useShortlist();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [nameInput, setNameInput] = useState(partnerName);
-  const [invited, setInvited] = useState(!!partnerName);
+
+  // Keep input synced when partnerName changes (e.g. via Reset)
+  useEffect(() => {
+    setNameInput(partnerName);
+  }, [partnerName]);
+
+  const invited = !!partnerName;
 
   const shortlistedNames = shortlist
     .map((s) => ({ ...s, nameData: names.find((n) => n.id === s.nameId) }))
     .filter((s) => s.nameData);
 
   const handleInvite = () => {
-    if (!nameInput.trim()) return;
-    setPartnerName(nameInput.trim());
-    setInvited(true);
+    const trimmed = nameInput.trim();
+    if (!trimmed) return;
+    setPartnerName(trimmed);
     toast({
       title: "Partner invited!",
-      description: `${nameInput.trim()} can now react to your shortlist. (Demo mode — share your screen!)`,
+      description: `${trimmed} can now react to your shortlist. (Demo mode — share your screen!)`,
     });
+  };
+
+  const handleRemovePartner = () => {
+    setPartnerName("");
+    setNameInput("");
+    toast({ title: "Partner removed" });
   };
 
   const handleCopyLink = () => {
@@ -74,9 +88,14 @@ export default function Partner() {
                 placeholder="Partner's name"
                 value={nameInput}
                 onChange={(e) => setNameInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleInvite()}
                 className="text-center"
               />
-              <Button onClick={handleInvite} className="mt-3 w-full gap-2">
+              <Button
+                onClick={handleInvite}
+                className="mt-3 w-full gap-2"
+                disabled={!nameInput.trim()}
+              >
                 <Link2 className="h-4 w-4" /> Send Invite
               </Button>
             </div>
@@ -93,9 +112,20 @@ export default function Partner() {
                   <p className="text-xs text-muted-foreground">Partner</p>
                 </div>
               </div>
-              <Button variant="outline" size="sm" onClick={handleCopyLink} className="gap-1">
-                <Copy className="h-3 w-3" /> Copy Link
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={handleCopyLink} className="gap-1">
+                  <Copy className="h-3 w-3" /> Copy Link
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleRemovePartner}
+                  className="gap-1 text-muted-foreground hover:text-destructive"
+                  aria-label="Remove partner"
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              </div>
             </div>
 
             {matches.length > 0 && (
@@ -118,9 +148,14 @@ export default function Partner() {
 
             <h3 className="mt-6 font-serif text-lg font-semibold">Shortlisted Names</h3>
             {shortlistedNames.length === 0 ? (
-              <p className="mt-3 text-sm text-muted-foreground">
-                Add names to your shortlist first, then come back here to react together.
-              </p>
+              <div className="mt-3 rounded-xl border border-dashed border-border p-4 text-center">
+                <p className="text-sm text-muted-foreground">
+                  Add names to your shortlist first, then come back here to react together.
+                </p>
+                <Button variant="outline" size="sm" className="mt-3" onClick={() => navigate("/discover")}>
+                  Go to Discover
+                </Button>
+              </div>
             ) : (
               <div className="mt-3 space-y-3">
                 {shortlistedNames.map(({ nameId, nameData }) => {

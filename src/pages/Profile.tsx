@@ -1,16 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { usePreferences } from "@/contexts/PreferencesContext";
 import { useShortlist } from "@/contexts/ShortlistContext";
 import BottomNav from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { RotateCcw, Settings, Heart, ThumbsUp, ThumbsDown, ShieldCheck } from "lucide-react";
+import { RotateCcw, Settings, Heart, ThumbsUp, ThumbsDown, ShieldCheck, Home } from "lucide-react";
 import { names } from "@/data/names";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export default function Profile() {
   const { preferences, resetPreferences } = usePreferences();
   const { shortlist, feedback, resetAll } = useShortlist();
   const navigate = useNavigate();
+  const [confirmReset, setConfirmReset] = useState(false);
 
   const likedCount = Object.values(feedback).filter((f) => f === "up").length;
   const passedCount = Object.values(feedback).filter((f) => f === "down").length;
@@ -18,10 +29,13 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-background pb-24">
       <div className="sticky top-0 z-40 border-b border-border bg-background/95 px-6 py-4 backdrop-blur">
-        <div className="mx-auto max-w-md">
+        <div className="mx-auto flex max-w-md items-center justify-between">
           <h1 className="font-serif text-xl font-bold text-foreground">
             <span className="text-primary">Profile</span> & Settings
           </h1>
+          <Button variant="ghost" size="icon" onClick={() => navigate("/")} aria-label="Home">
+            <Home className="h-5 w-5" />
+          </Button>
         </div>
       </div>
 
@@ -99,16 +113,36 @@ export default function Profile() {
           <Button
             variant="outline"
             className="w-full gap-2 text-destructive hover:bg-destructive/10"
-            onClick={() => {
-              resetPreferences();
-              resetAll();
-              navigate("/onboarding");
-            }}
+            onClick={() => setConfirmReset(true)}
           >
             <RotateCcw className="h-4 w-4" /> Reset Everything
           </Button>
         </div>
       </div>
+
+      <AlertDialog open={confirmReset} onOpenChange={setConfirmReset}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Reset everything?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This clears your preferences, shortlist, partner, and reactions. This cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                resetPreferences();
+                resetAll();
+                setConfirmReset(false);
+                navigate("/");
+              }}
+            >
+              Reset
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <BottomNav />
     </div>
