@@ -21,6 +21,7 @@ export default function Profile() {
   const { preferences, resetPreferences } = usePreferences();
   const { shortlist, feedback, resetAll } = useShortlist();
   const navigate = useNavigate();
+  const [confirmReset, setConfirmReset] = useState(false);
 
   const likedCount = Object.values(feedback).filter((f) => f === "up").length;
   const passedCount = Object.values(feedback).filter((f) => f === "down").length;
@@ -28,10 +29,13 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-background pb-24">
       <div className="sticky top-0 z-40 border-b border-border bg-background/95 px-6 py-4 backdrop-blur">
-        <div className="mx-auto max-w-md">
+        <div className="mx-auto flex max-w-md items-center justify-between">
           <h1 className="font-serif text-xl font-bold text-foreground">
             <span className="text-primary">Profile</span> & Settings
           </h1>
+          <Button variant="ghost" size="icon" onClick={() => navigate("/")} aria-label="Home">
+            <Home className="h-5 w-5" />
+          </Button>
         </div>
       </div>
 
