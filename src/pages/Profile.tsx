@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { usePreferences } from "@/contexts/PreferencesContext";
 import { useShortlist } from "@/contexts/ShortlistContext";
 import BottomNav from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { RotateCcw, Settings, Heart, ThumbsUp, ThumbsDown, ShieldCheck } from "lucide-react";
+import { RotateCcw, Settings, Heart, ThumbsUp, ThumbsDown, ShieldCheck, Home } from "lucide-react";
 import { names } from "@/data/names";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export default function Profile() {
   const { preferences, resetPreferences } = usePreferences();
