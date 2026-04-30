@@ -1,87 +1,46 @@
-# Fix the End-to-End User Flow
+# Three small fixes before deploy
 
-The app currently jumps users straight from `/` into Onboarding or Discover with no welcome moment, and there are several rough edges along the journey (no validation, broken back behavior on deep links, partner state desync, no confirmations, restrictive prefs producing dead-ends with no quick fix). This plan makes the entire flow coherent from homepage to deciding on a name with a partner.
+## 1. Hide the Pre-Deploy Checklist from users
 
-## Goals
+The checklist is an internal QA tool, not a user feature. Remove all user-facing entry points but keep the page available at `/pre-deploy` for your own use (typed directly into the URL bar).
 
-1. A real homepage with clear entry points for new and returning users.
-2. Onboarding that's editable from anywhere without losing context, with a "Skip" affordance and a live match counter so users don't end up with zero results.
-3. Discover/Detail/Shortlist/Partner/Profile flow with safe back navigation, confirmations, and resilient state.
+- `src/pages/Profile.tsx` — remove the "Pre-Deploy Checklist" button and the unused `ShieldCheck` import.
+- Leave the `/pre-deploy` route in `src/App.tsx` so you can still reach it manually. (If you'd prefer it removed entirely, say so and I'll delete the route + page file.)
 
-## 1. New Homepage (`/`)
+## 2. Fix the partner invite link
 
-Replace the current redirect-only `Index.tsx` with a proper landing page:
+Today the "Copy Link" button copies `${origin}/partner`, which just opens the inviter's own partner page on the recipient's device with no shared context. The shortlist lives in `localStorage`, so the partner has no data to react to.
 
-- Hero: "BabyName AI" wordmark + tagline ("Discover meaningful names from cultures around the world").
-- Primary CTA:
-  - First-time visitor (`!hasCompletedOnboarding`): "Get Started" → `/onboarding`.
-  - Returning visitor: "Continue Discovering" → `/discover`, plus secondary links to Shortlist (with count) and Partner.
-- Quick stats strip: total names, total cultural origins (from `names.ts`).
-- Small "Edit preferences" link for returning users.
+Make the invite link self-contained by encoding the inviter's shortlist into the URL:
 
-Remove the auto-redirect; users land on `/` and choose. The bottom nav is hidden here (welcome screen).
+- In `src/pages/Partner.tsx`:
+  - Build the invite URL as `${origin}/partner?from=<inviterName>&names=<base64(JSON of shortlist nameIds)>`.
+  - On mount, read `?from` and `?names` from `useSearchParams`. If present and the local user has no shortlist of their own, hydrate a read-only "reacting to <inviter>'s list" view using the encoded ids resolved against `names` data.
+  - Show the inviter's name in the header ("You're reacting to Sarah's shortlist") and let the recipient tap reactions, which save to `partnerReactions` keyed by the inviter's name.
+  - "Send Invite" still records the partner locally; "Copy Link" now generates the shareable URL described above and toasts "Invite link copied".
+  - If the shortlist is empty when copying, disable the button and show a hint to add names first.
 
-## 2. Onboarding fixes (`/onboarding`)
+Technical notes:
+- Use `encodeURIComponent(btoa(JSON.stringify(ids)))` for compact, URL-safe payload; decode with the inverse. Cap to e.g. 100 ids to keep URLs short.
+- No backend needed — this stays fully client-side per the project's localStorage-only constraint.
 
-- Detect "edit mode" when `hasCompletedOnboarding` is already true: show a "Done" button in the header that returns the user to wherever they came from (default `/discover`) without forcing them through all 4 steps again. Each step gets its own "Save & Close" shortcut.
-- Add a live "X names match" counter at the bottom of steps 1–3 using `filterNames(names, preferences).length`, colored warning when 0.
-- Step 1 (origins): add a "Select all" / "Clear" pair and group origins by region (Africa, Europe, Asia, Americas, Middle East) using simple section headers — keeps the long list scannable.
-- Step 3 (style): if "Starting letters" or "Must include letters" produce 0 matches, show a small inline hint "No names match — try removing one constraint."
-- Final CTA: if current filter yields 0, label changes to "Adjust preferences" and stays on the step instead of navigating to a dead Discover screen.
+## 3. Remove all Lovable branding & favicon
 
-## 3. Discover (`/discover`)
+- `index.html`:
+  - Remove `<meta name="author" content="Lovable" />`.
+  - Remove `<meta name="twitter:site" content="@Lovable" />`.
+  - Remove the two `lovable.app` preview image meta tags (`og:image`, `twitter:image`) — leave them blank or drop the tags entirely.
+  - Add a neutral favicon link. Since no custom favicon was provided, reference the existing `/placeholder.svg` as a temporary favicon: `<link rel="icon" type="image/svg+xml" href="/placeholder.svg" />`.
+- `public/favicon.ico`: delete the Lovable-branded default favicon file so browsers fall back to the SVG above.
 
-- Header gear icon: instead of jumping to step 0 of onboarding, open onboarding in edit mode (see above).
-- Empty state: in addition to "Edit Preferences", add a "Reset filters" button that calls `resetPreferences()` and reloads matches.
-- Add a small "Back to home" link in the header for symmetry with the new landing page.
+If you'd like a custom favicon instead of the placeholder, upload an image and I'll wire it in.
 
-## 4. Name Detail (`/name/:id`)
+## Files touched
+- `src/pages/Profile.tsx`
+- `src/pages/Partner.tsx`
+- `index.html`
+- `public/favicon.ico` (deleted)
 
-- Replace `navigate(-1)` with smart back: if `window.history.length <= 1` (deep link), navigate to `/discover` instead.
-- Add a "View in Shortlist" link when the name is shortlisted.
-- "Add to Shortlist" button: after adding, show a toast with a "View shortlist" action.
-
-## 5. Shortlist (`/shortlist`)
-
-- Wrap the trash button in an `AlertDialog` confirmation ("Remove {name} from shortlist?").
-- Auto-save the note (already happens via onChange) but add a small "Saved" indicator using a debounced flag so users get feedback.
-- When the list is non-empty, add a footer CTA "Compare with partner →" linking to `/partner`.
-
-## 6. Partner (`/partner`)
-
-- Sync `invited` with `partnerName`: if `partnerName` is cleared (e.g. via Reset), the invite screen comes back. Use `useEffect` instead of initial state.
-- Validate the invite input (trim, min length 1) and disable the button accordingly.
-- Add a "Change partner" / "Remove partner" action in the partner card.
-- When `shortlistedNames` is empty, the CTA should link to `/discover`.
-
-## 7. Profile (`/profile`)
-
-- "Reset Everything" wraps in a confirm dialog.
-- Add a "Home" link/button at the top so users can get back to the welcome screen.
-- Keep the Pre-Deploy Checklist link.
-
-## 8. Bottom Nav
-
-- Add a "Home" tab pointing to `/` so the welcome page is reachable from any tab. Becomes 5 tabs: Home, Discover, Shortlist, Partner, Profile.
-- Hide the bottom nav on `/onboarding` and `/` (already hidden on those pages today; keep that behavior).
-
-## Files Touched
-
-```text
-src/pages/Index.tsx          - rewrite as real landing page
-src/pages/Onboarding.tsx     - edit mode, match counter, region grouping, validation
-src/pages/Discover.tsx       - reset-filters in empty state, smarter gear icon
-src/pages/NameDetail.tsx     - smart back, shortlist link, post-add toast action
-src/pages/Shortlist.tsx      - delete confirmation, save indicator, partner CTA
-src/pages/Partner.tsx        - sync invited↔partnerName, change/remove partner, validation
-src/pages/Profile.tsx        - confirm reset, home link
-src/components/BottomNav.tsx - add Home tab
-```
-
-No data model, routing, or design-system changes. All work stays client-side using existing contexts and `localStorage`.
-
-## Out of Scope
-
-- No new name data.
-- No backend, accounts, or real partner sync (still mock/local).
-- No visual redesign — reuse existing tokens (cream/beige + gold, Playfair + Inter).
+## Out of scope
+- No backend / real-time partner sync (still demo/local).
+- No design changes.
