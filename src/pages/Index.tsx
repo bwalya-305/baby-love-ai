@@ -15,7 +15,7 @@ export default function Index() {
   const totalOrigins = new Set(names.map((n) => n.origin)).size;
 
   return (
-    <main className="min-h-screen bg-background pb-24">
+    <main className="min-h-screen bg-background">
       <div className="mx-auto flex min-h-screen max-w-md flex-col px-6 pb-10 pt-16">
         {/* Hero */}
         <header>
