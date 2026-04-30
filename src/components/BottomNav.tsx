@@ -1,9 +1,8 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, Compass, Heart, Users, User } from "lucide-react";
+import { Compass, Heart, Users, User } from "lucide-react";
 
 const tabs = [
-  { path: "/", label: "Home", icon: Home, match: (p: string) => p === "/" },
   {
     path: "/discover",
     label: "Discover",
@@ -27,7 +26,7 @@ const tabs = [
     path: "/profile",
     label: "Profile",
     icon: User,
-    match: (p: string) => p === "/profile" || p === "/onboarding",
+    match: (p: string) => p === "/profile",
   },
 ];
 
