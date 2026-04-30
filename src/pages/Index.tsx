@@ -1,10 +1,11 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { usePreferences } from "@/contexts/PreferencesContext";
 import { useShortlist } from "@/contexts/ShortlistContext";
 import { Button } from "@/components/ui/button";
 import { names } from "@/data/names";
 import { Sparkles, Compass, Heart, Users, Settings } from "lucide-react";
+import BottomNav from "@/components/BottomNav";
 
 export default function Index() {
   const { hasCompletedOnboarding } = usePreferences();
@@ -15,7 +16,7 @@ export default function Index() {
   const totalOrigins = new Set(names.map((n) => n.origin)).size;
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background pb-24">
       <div className="mx-auto flex min-h-screen max-w-md flex-col px-6 pb-10 pt-16">
         {/* Hero */}
         <header>
@@ -107,6 +108,7 @@ export default function Index() {
           Your data stays on this device — nothing is uploaded.
         </p>
       </div>
+      <BottomNav />
     </main>
   );
 }
