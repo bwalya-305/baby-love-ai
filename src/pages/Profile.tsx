@@ -4,7 +4,7 @@ import { useShortlist } from "@/contexts/ShortlistContext";
 import BottomNav from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { RotateCcw, Settings, Heart, ThumbsUp, ThumbsDown, ShieldCheck, Home } from "lucide-react";
+import { RotateCcw, Settings, Heart, ThumbsUp, ThumbsDown, Home } from "lucide-react";
 import { names } from "@/data/names";
 import {
   AlertDialog,
@@ -103,13 +103,6 @@ export default function Profile() {
 
         {/* Reset */}
         <div className="mt-6 space-y-3">
-          <Button
-            variant="outline"
-            className="w-full gap-2"
-            onClick={() => navigate("/pre-deploy")}
-          >
-            <ShieldCheck className="h-4 w-4" /> Pre-Deploy Checklist
-          </Button>
           <Button
             variant="outline"
             className="w-full gap-2 text-destructive hover:bg-destructive/10"
