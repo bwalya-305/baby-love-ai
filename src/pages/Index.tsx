@@ -107,7 +107,6 @@ export default function Index() {
           Your data stays on this device — nothing is uploaded.
         </p>
       </div>
-      <BottomNav />
     </main>
   );
 }
