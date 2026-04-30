@@ -5,7 +5,6 @@ import { useShortlist } from "@/contexts/ShortlistContext";
 import { Button } from "@/components/ui/button";
 import { names } from "@/data/names";
 import { Sparkles, Compass, Heart, Users, Settings } from "lucide-react";
-import BottomNav from "@/components/BottomNav";
 
 export default function Index() {
   const { hasCompletedOnboarding } = usePreferences();
