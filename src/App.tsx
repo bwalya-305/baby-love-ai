@@ -14,6 +14,7 @@ import Partner from "./pages/Partner.tsx";
 import Profile from "./pages/Profile.tsx";
 import PreDeployCheck from "./pages/PreDeployCheck.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import ChatbotWidget from "./components/ChatbotWidget.tsx";
 
 const queryClient = new QueryClient();
 
