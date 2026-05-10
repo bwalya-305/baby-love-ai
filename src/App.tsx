@@ -37,6 +37,7 @@ const App = () => (
               <Route path="/pre-deploy" element={<PreDeployCheck />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <ChatbotWidget />
           </BrowserRouter>
         </ShortlistProvider>
       </PreferencesProvider>
