@@ -5,7 +5,8 @@ import { filterNames, shuffleArray } from "@/lib/filterNames";
 import NameCard from "@/components/NameCard";
 import BottomNav from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
-import { Home, RefreshCw, RotateCcw, SlidersHorizontal } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Home, RefreshCw, RotateCcw, Search, SlidersHorizontal, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const BATCH = 10;
