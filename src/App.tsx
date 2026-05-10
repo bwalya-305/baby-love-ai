@@ -14,6 +14,7 @@ import Partner from "./pages/Partner.tsx";
 import Profile from "./pages/Profile.tsx";
 import PreDeployCheck from "./pages/PreDeployCheck.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import ChatbotWidget from "./components/ChatbotWidget.tsx";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
               <Route path="/pre-deploy" element={<PreDeployCheck />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <ChatbotWidget />
           </BrowserRouter>
         </ShortlistProvider>
       </PreferencesProvider>
