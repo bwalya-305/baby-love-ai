@@ -15,6 +15,32 @@ export default function Discover() {
   const { preferences, resetPreferences } = usePreferences();
   const navigate = useNavigate();
   const [seed, setSeed] = useState(0);
+  const [query, setQuery] = useState("");
+
+  const trimmedQuery = query.trim().toLowerCase();
+  const isSearching = trimmedQuery.length > 0;
+
+  const searchResults = useMemo(() => {
+    if (!isSearching) return [];
+    return names
+      .filter((n) => {
+        return (
+          n.name.toLowerCase().includes(trimmedQuery) ||
+          n.meaning.toLowerCase().includes(trimmedQuery) ||
+          n.origin.toLowerCase().includes(trimmedQuery) ||
+          n.culturalContext.toLowerCase().includes(trimmedQuery) ||
+          n.themes.some((t) => t.toLowerCase().includes(trimmedQuery))
+        );
+      })
+      .sort((a, b) => {
+        // Prioritize exact name matches, then name-starts-with
+        const an = a.name.toLowerCase();
+        const bn = b.name.toLowerCase();
+        const aExact = an === trimmedQuery ? 0 : an.startsWith(trimmedQuery) ? 1 : 2;
+        const bExact = bn === trimmedQuery ? 0 : bn.startsWith(trimmedQuery) ? 1 : 2;
+        return aExact - bExact;
+      });
+  }, [trimmedQuery, isSearching]);
 
   const filtered = useMemo(() => {
     return shuffleArray(filterNames(names, preferences));
@@ -22,7 +48,7 @@ export default function Discover() {
   }, [preferences, seed]);
 
   const [visible, setVisible] = useState(BATCH);
-  const shown = filtered.slice(0, visible);
+  const shown = isSearching ? searchResults : filtered.slice(0, visible);
 
   const handleMore = () => {
     if (visible >= filtered.length) {
