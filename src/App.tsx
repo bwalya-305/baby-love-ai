@@ -36,6 +36,7 @@ const App = () => (
               <Route path="/partner" element={<Partner />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/pre-deploy" element={<PreDeployCheck />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <ChatbotWidget />
