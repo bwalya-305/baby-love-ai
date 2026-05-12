@@ -13,6 +13,7 @@ import Shortlist from "./pages/Shortlist.tsx";
 import Partner from "./pages/Partner.tsx";
 import Profile from "./pages/Profile.tsx";
 import PreDeployCheck from "./pages/PreDeployCheck.tsx";
+import ResetPassword from "./pages/ResetPassword.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import ChatbotWidget from "./components/ChatbotWidget.tsx";
 
