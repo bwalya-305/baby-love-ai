@@ -13,6 +13,7 @@ import Shortlist from "./pages/Shortlist.tsx";
 import Partner from "./pages/Partner.tsx";
 import Profile from "./pages/Profile.tsx";
 import PreDeployCheck from "./pages/PreDeployCheck.tsx";
+import ResetPassword from "./pages/ResetPassword.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import ChatbotWidget from "./components/ChatbotWidget.tsx";
 
@@ -35,6 +36,7 @@ const App = () => (
               <Route path="/partner" element={<Partner />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/pre-deploy" element={<PreDeployCheck />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <ChatbotWidget />
