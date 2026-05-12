@@ -1,5 +1,5 @@
-import { convertToModelMessages, streamText, type UIMessage } from "npm:ai@^3";
-import { createOpenAICompatible } from "npm:@ai-sdk/openai-compatible@^2";
+import { convertToModelMessages, streamText, type UIMessage } from "npm:ai";
+import { createOpenAICompatible } from "npm:@ai-sdk/openai-compatible";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
