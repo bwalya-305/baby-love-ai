@@ -119,6 +119,22 @@ export default function ChatbotWidget() {
                 .map((p) => (p.type === "text" ? p.text : ""))
                 .join("");
               const isUser = m.role === "user";
+
+              const formatText = (content: string) => {
+                // Split by **text** to extract bold parts
+                const parts = content.split(/(\*\*.*?\*\*)/g);
+                return parts.map((part, i) => {
+                  if (part.startsWith('**') && part.endsWith('**')) {
+                    return (
+                      <strong key={i} className="font-semibold text-foreground">
+                        {part.slice(2, -2)}
+                      </strong>
+                    );
+                  }
+                  return <span key={i}>{part}</span>;
+                });
+              };
+
               return (
                 <div
                   key={m.id}
@@ -129,8 +145,8 @@ export default function ChatbotWidget() {
                       {text}
                     </div>
                   ) : (
-                    <div className="max-w-[90%] whitespace-pre-wrap text-sm leading-relaxed text-foreground">
-                      {text}
+                    <div className="max-w-[90%] whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">
+                      {formatText(text)}
                     </div>
                   )}
                 </div>
